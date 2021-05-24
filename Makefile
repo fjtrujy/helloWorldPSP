@@ -10,7 +10,7 @@ TARGET = hello
 OBJS = main.o
 
 INCDIR =
-CFLAGS = -Os -G0 -Wall
+CFLAGS = -Os -G0 -Wall -g
 # CFLAGS += -fdata-sections -ffunction-sections
 # LDFLAGS += -s
 # LDFLAGS += -Wl,-zmax-page-size=128  -s -Wl,--gc-sections 
