@@ -36,4 +36,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: hello-${{ steps.slug.outputs.sha8 }}
-        path: hello.elf EBOOT.PBP PARAM.SFO
+        path: |
+          hello.elf 
+          EBOOT.PBP 
+          PARAM.SFO
