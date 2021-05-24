@@ -29,9 +29,7 @@ jobs:
     - name: Compile project
       run: |
         make clean all
-        psp-gcc -I. -I/usr/local/pspdev/psp/sdk/include -Os -G0 -Wall -g -D_PSP_FW_VERSION=150   -c -o main.o main.c
-        psp-gcc -I. -I/usr/local/pspdev/psp/sdk/include -Os -G0 -Wall -g -D_PSP_FW_VERSION=150  -L. -L/usr/local/pspdev/psp/sdk/lib   main.o  -lpspdebug -lpspdisplay -lpspge -lpspctrl -lpspsdk -lc -lpspnet -lpspnet_inet -lpspnet_apctl -lpspnet_resolver -lpsputility -lpspuser -lpspkernel -o hello.elf
-        psp-fixup-imports hello.elf
+        psp-objdump -D hello.elf >> dump.txt
 
     - name: Get short SHA
       id: slug
@@ -50,3 +48,4 @@ jobs:
           hello.elf 
           EBOOT.PBP 
           PARAM.SFO
+          dump.txt
