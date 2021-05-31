@@ -6,14 +6,15 @@
 # Licenced under Academic Free License version 2.0
 # Review ps2sdk README & LICENSE files for further details.
 
+USE_PSPSDK_LIBC = 1
+
 TARGET = hello
 OBJS = main.o
 
 INCDIR =
 CFLAGS = -Os -G0 -Wall -g
 CFLAGS += -fdata-sections -ffunction-sections
-# LDFLAGS += -s
-# LDFLAGS += -Wl,--gc-sections 
+LDFLAGS += -s 
 
 # LIBDIR =
 # LDFLAGS =
