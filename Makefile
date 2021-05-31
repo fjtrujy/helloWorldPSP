@@ -10,14 +10,9 @@ TARGET = hello
 OBJS = main.o
 
 INCDIR =
-CFLAGS = -Os -G0 -Wall -g
+CFLAGS = -Os -G0 -Wall
 CFLAGS += -fdata-sections -ffunction-sections
-# LDFLAGS += -s
-# LDFLAGS += -Wl,--gc-sections 
-
-# LIBDIR =
-# LDFLAGS =
-# LIBS=
+LDFLAGS += -s
 
 EXTRA_TARGETS = EBOOT.PBP
 PSP_EBOOT_TITLE = Hello World

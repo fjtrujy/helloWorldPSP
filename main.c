@@ -66,7 +66,7 @@ int main(int argc, char** argv)
     while(isRunning()) {
         sceDisplayWaitVblankStart(); // wait for vblank
         pspDebugScreenClear(); // reset where we draw
-        pspDebugScreenSetXY(0, 0); // reset where we draw
+        pspDebugScreenSetXY(20, 20); // reset where we draw
         printf("Hello World!"); // print some text
     }
     
