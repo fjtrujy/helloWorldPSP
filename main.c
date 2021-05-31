@@ -60,14 +60,14 @@ int main(int argc, char** argv)
 {
     // basic init
     setupExitCallback();
-   //  pspDebugScreenInit();
+    pspDebugScreenInit();
     
     // while this program is alive
     while(isRunning()) {
-      //   sceDisplayWaitVblankStart(); // wait for vblank
-      //   pspDebugScreenClear(); // reset where we draw
-      //   pspDebugScreenSetXY(0, 0); // reset where we draw
-      //   printf("Hello World!"); // print some text
+        sceDisplayWaitVblankStart(); // wait for vblank
+        pspDebugScreenClear(); // reset where we draw
+        pspDebugScreenSetXY(0, 0); // reset where we draw
+        printf("Hello World!"); // print some text
     }
     
     // exit

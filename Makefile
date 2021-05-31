@@ -11,9 +11,9 @@ OBJS = main.o
 
 INCDIR =
 CFLAGS = -Os -G0 -Wall -g
-# CFLAGS += -fdata-sections -ffunction-sections
+CFLAGS += -fdata-sections -ffunction-sections
 # LDFLAGS += -s
-# LDFLAGS += -Wl,-zmax-page-size=128  -s -Wl,--gc-sections 
+# LDFLAGS += -Wl,--gc-sections 
 
 # LIBDIR =
 # LDFLAGS =
