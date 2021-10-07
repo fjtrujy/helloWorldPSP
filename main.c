@@ -3,7 +3,9 @@
 #include <pspdebug.h>
 #include <pspdisplay.h>
 #include <pspkernel.h>
- 
+
+#include <sys/types.h>
+#include <dirent.h>
  
 // configure PSP stuff
 #define VERS    1
@@ -57,20 +59,9 @@ static int setupExitCallback()
  
  
 int main(int argc, char** argv)
-{
-    // basic init
-    setupExitCallback();
-    pspDebugScreenInit();
-    
-    // while this program is alive
-    while(isRunning()) {
-        sceDisplayWaitVblankStart(); // wait for vblank
-        pspDebugScreenClear(); // reset where we draw
-        pspDebugScreenSetXY(20, 20); // reset where we draw
-        printf("Hello World!"); // print some text
-    }
-    
-    // exit
-    sceKernelExitGame();
+{   
+	while(1) {
+      printf("Working!!!\n");
+   }
     return 0;
 }

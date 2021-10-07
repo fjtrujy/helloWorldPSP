@@ -6,13 +6,16 @@
 # Licenced under Academic Free License version 2.0
 # Review ps2sdk README & LICENSE files for further details.
 
+BUILD_PRX          = 1
+HAVE_KERNEL_PRX    = 1
+
 TARGET = hello
 OBJS = main.o
 
 INCDIR =
-CFLAGS = -Os -G0 -Wall
-CFLAGS += -fdata-sections -ffunction-sections
-LDFLAGS += -s
+CFLAGS = -O0 -G0 -Wall -g
+# CFLAGS += -fdata-sections -ffunction-sections
+# LDFLAGS += -s
 
 EXTRA_TARGETS = EBOOT.PBP
 PSP_EBOOT_TITLE = Hello World
