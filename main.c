@@ -16,7 +16,7 @@ PSP_MAIN_THREAD_ATTR(PSP_THREAD_ATTR_USER);
  
  
 // make printing easier on us
-#define printf pspDebugScreenPrintf
+// #define printf pspDebugScreenPrintf
 
 static int exitRequest  = 0;
 
@@ -59,9 +59,16 @@ static int setupExitCallback()
  
  
 int main(int argc, char** argv)
-{   
-	while(1) {
+{
+    // basic init
+    setupExitCallback();
+    
+	while(isRunning()) {
       printf("Working!!!\n");
+      sceIoWrite(2, "foo\n", 4);
    }
+
+   //  exit
+    sceKernelExitGame();
     return 0;
 }
