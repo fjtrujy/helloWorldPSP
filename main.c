@@ -6,13 +6,14 @@
 
 #include <sys/types.h>
 #include <dirent.h>
+#include <stdio.h>
  
 // configure PSP stuff
 #define VERS    1
 #define REVS    0
  
-PSP_MODULE_INFO("HelloWorld", PSP_MODULE_USER, VERS, REVS);
-PSP_MAIN_THREAD_ATTR(PSP_THREAD_ATTR_USER);
+PSP_MODULE_INFO("RetroArch", 0, 1, 1);
+PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER|THREAD_ATTR_VFPU);
  
  
 // make printing easier on us
@@ -66,6 +67,7 @@ int main(int argc, char** argv)
 	while(isRunning()) {
       printf("Working!!!\n");
       sceIoWrite(2, "foo\n", 4);
+      sceIoWrite(1, "faa\n", 4);
    }
 
    //  exit

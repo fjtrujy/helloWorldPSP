@@ -1,0 +1,34 @@
+{
+   // Use IntelliSense to learn about possible attributes.
+   // Hover to view descriptions of existing attributes.
+   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+   "version": "0.2.0",
+   "configurations": [
+      {
+         "name": "PSP-GDB Debugger",
+          "type": "cppdbg",
+          "request": "launch",
+          "program": "${workspaceFolder}/hello.elf",
+          "stopAtEntry": true,
+          "cwd": "${workspaceFolder}",
+          "environment": [],
+          "setupCommands": [
+             {
+                 "text": "symbol-file ${workspaceFolder}/hello.elf",
+                 "description": "read symbols for elf file",
+                 "ignoreFailures": true
+             },
+             {
+               "description": "Enable all-exceptions",
+               "text": "-exec \"catch throw\"",
+               "ignoreFailures": true
+           }
+         ],
+         "showDisplayString": true,
+          "targetArchitecture": "mips",
+          "MIMode": "gdb",
+          "miDebuggerPath": "${env:PSPDEV}/bin/psp-gdb",
+          "miDebuggerServerAddress": "127.0.0.1:10001",
+     }
+   ]
+}
