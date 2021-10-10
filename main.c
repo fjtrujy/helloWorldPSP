@@ -66,8 +66,6 @@ int main(int argc, char** argv)
     
 	while(isRunning()) {
       printf("Working!!!\n");
-      sceIoWrite(2, "foo\n", 4);
-      sceIoWrite(1, "faa\n", 4);
    }
 
    //  exit

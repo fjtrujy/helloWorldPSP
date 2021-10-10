@@ -27,7 +27,7 @@
          "showDisplayString": true,
           "targetArchitecture": "mips",
           "MIMode": "gdb",
-          "miDebuggerPath": "${env:PSPDEV}/bin/psp-gdb",
+          "miDebuggerPath": "/Users/fjtrujy/toolchains/psp/pspdev-new/bin/psp-gdb",
           "miDebuggerServerAddress": "127.0.0.1:10001",
      }
    ]
