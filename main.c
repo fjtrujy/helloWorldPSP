@@ -15,6 +15,8 @@
  
 PSP_MODULE_INFO("RetroArch", 0, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER|THREAD_ATTR_VFPU);
+
+PSP_NO_CREATE_MAIN_THREAD();
  
 extern int _start(SceSize args, void *argp);
 extern void *_end;
