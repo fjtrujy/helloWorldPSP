@@ -44,11 +44,16 @@ char *itoa(int n, char *buf, int radix)
 int _start(SceSize args, void *argp)
 {
 	int totalFree = sceKernelTotalFreeMemSize();
-	int maxFree = sceKernelMaxFreeMemSize();
+	int __psp_heap_blockid;
 	char totalFreeString[9] = {0};
 	char maxFreeString[9] = {0};
+	int block_id = 0;
+	char blockString[2] = {0};
+
+	void *heap_bottom = NULL;
+	void *heap_top = NULL;
+	
 	itoa(totalFree, totalFreeString, 10);
-	itoa(maxFree, maxFreeString, 10);
 
 	int fdout = sceIoOpen("ms0:/memory_info.txt", PSP_O_WRONLY | PSP_O_CREAT | PSP_O_TRUNC, 0777);
 	if(fdout > 0)
@@ -59,10 +64,33 @@ int _start(SceSize args, void *argp)
 		sceIoWrite(fdout, totalFreeString, 9);
 		sceIoWrite(fdout, "\n", 1);
 
-		sceIoWrite(fdout, "sceKernelMaxFreeMemSize: ", 25);
-		sceIoWrite(fdout, maxFreeString, 9);
-		sceIoWrite(fdout, "\n", 1);
+		int maxFree = sceKernelMaxFreeMemSize();
+		while (maxFree > 0) {
+			itoa(block_id, blockString, 10);
+			__psp_heap_blockid = sceKernelAllocPartitionMemory(PSP_MEMORY_PARTITION_USER, blockString, PSP_SMEM_High, maxFree, NULL);
+			if (__psp_heap_blockid <= 0) {
+				sceIoWrite(fdout, "ERROR HEAP!\n", 12);
+				break;
+			} else {
+				itoa(maxFree, maxFreeString, 10);
+				sceIoWrite(fdout, blockString, 2);
+				sceIoWrite(fdout, " -> sceKernelMaxFreeMemSize: ", 29);
+				sceIoWrite(fdout, maxFreeString, 9);
 
+				heap_bottom = sceKernelGetBlockHeadAddr(__psp_heap_blockid);
+				heap_top = (unsigned char *) heap_bottom + maxFree;
+				sceIoWrite(fdout, " -> bottom: 0x", 14);
+				itoa(heap_bottom, maxFreeString, 16);
+				sceIoWrite(fdout, maxFreeString, 9);
+				sceIoWrite(fdout, ", top: 0x", 9);
+				itoa(heap_top, maxFreeString, 16);
+				sceIoWrite(fdout, maxFreeString, 9);
+				sceIoWrite(fdout, "\n", 1);
+
+			maxFree = sceKernelMaxFreeMemSize();
+			block_id++;
+			}
+		}
 		sceIoClose(fdout);
 	}
 
