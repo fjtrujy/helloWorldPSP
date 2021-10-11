@@ -49,9 +49,24 @@ int _start(SceSize args, void *argp)
 	char maxFreeString[9] = {0};
 	itoa(totalFree, totalFreeString, 10);
 	itoa(maxFree, maxFreeString, 10);
-	sceIoWrite(1, totalFreeString, 9);
-	sceIoWrite(1, maxFreeString, 9);
 
+	int fdout = sceIoOpen("ms0:/memory_info.txt", PSP_O_WRONLY | PSP_O_CREAT | PSP_O_TRUNC, 0777);
+	if(fdout > 0)
+	{
+		sceIoWrite(fdout, "Summary\n", 8);
+		
+		sceIoWrite(fdout, "sceKernelTotalFreeMemSize: ", 27);
+		sceIoWrite(fdout, totalFreeString, 9);
+		sceIoWrite(fdout, "\n", 1);
+
+		sceIoWrite(fdout, "sceKernelMaxFreeMemSize: ", 25);
+		sceIoWrite(fdout, maxFreeString, 9);
+		sceIoWrite(fdout, "\n", 1);
+
+		sceIoClose(fdout);
+	}
+
+	sceKernelExitGame();
 	return 0;
 }
 

@@ -28,8 +28,8 @@ jobs:
 
     - name: Compile project
       run: |
-        make clean all
-        psp-objdump -D hello.elf >> dump.txt
+        ./compilation.sh
+        psp-objdump -D hello_strip.elf >> dump.txt
 
     - name: Get short SHA
       id: slug
