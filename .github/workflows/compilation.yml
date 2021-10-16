@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        docker_tag: [pspdev/pspdev, fjtrujy/pspsdk]
+        docker_tag: [pspdev/pspdev, fjtrujy/pspdev]
 
     container: ${{ matrix.docker_tag }}:latest
     steps:
@@ -29,7 +29,6 @@ jobs:
     - name: Compile project
       run: |
         make clean all
-        psp-objdump -D hello.elf >> dump.txt
 
     - name: Get short SHA
       id: slug
