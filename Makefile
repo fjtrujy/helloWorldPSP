@@ -12,7 +12,6 @@ PSP_LARGE_MEMORY   = 1
 TARGET = hello
 OBJS = main.o
 
-LIBS = -lstdc++ -lpspgu -lpspgum -lm -lpspaudio -lpspfpu -lpsppower -lpsprtc
 CFLAGS = -Os -g -G0
 
 EXTRA_TARGETS = EBOOT.PBP
