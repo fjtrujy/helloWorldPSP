@@ -10,7 +10,8 @@ BUILD_PRX          = 0
 PSP_LARGE_MEMORY   = 1
 
 TARGET = hello
-OBJS = main.o
+OBJS = hi.o
+LIBS = -lstdc++
 
 CFLAGS = -Os
 
