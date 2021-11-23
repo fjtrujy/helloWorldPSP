@@ -6,13 +6,14 @@
 # Licenced under Academic Free License version 2.0
 # Review ps2sdk README & LICENSE files for further details.
 
-BUILD_PRX          = 0
+BUILD_PRX          = 1
 PSP_LARGE_MEMORY   = 1
 
 TARGET = hello
-OBJS = main.o
+OBJS = hi.o
+LIBS = -lstdc++
 
-CFLAGS = -Os -g -G0
+CFLAGS = -O0 -g -Wall -Wextra
 
 EXTRA_TARGETS = EBOOT.PBP
 PSP_EBOOT_TITLE = Hello World
