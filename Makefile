@@ -12,7 +12,7 @@ PSP_LARGE_MEMORY   = 1
 TARGET = hello
 OBJS = main.o
 
-CFLAGS = -Os -g -G0
+CFLAGS = -Os
 
 EXTRA_TARGETS = EBOOT.PBP
 PSP_EBOOT_TITLE = Hello World
