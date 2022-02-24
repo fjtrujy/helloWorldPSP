@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        docker_tag: [fjtrujy/pspdev]
+        docker_tag: [pspdev/pspdev]
 
     container: ${{ matrix.docker_tag }}:latest
     steps:
