@@ -13,7 +13,7 @@ TARGET = hello
 OBJS = hi.o
 LIBS = -lstdc++
 
-CFLAGS = -O0 -g -Wall -Wextra
+CFLAGS = -O3 -Wall -Wextra
 
 EXTRA_TARGETS = EBOOT.PBP
 PSP_EBOOT_TITLE = Hello World
