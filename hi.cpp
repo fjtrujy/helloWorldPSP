@@ -62,12 +62,15 @@ static int setupExitCallback()
 int main(int argc, char** argv)
 {
     // basic init
+    int counter = 1;
     setupExitCallback();
-    
-	while(isRunning()) {
+
+	while(isRunning() && (counter % 1000) != 0) {
       printf("Working!!!\n");
       sceIoWrite(2, "foo\n", 4);
       sceIoWrite(1, "faa\n", 4);
+
+      counter++;
    }
 
    //  exit
