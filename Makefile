@@ -11,7 +11,7 @@ PSP_LARGE_MEMORY   = 1
 
 TARGET = hello
 OBJS = hi.o
-LIBS = -lstdc++
+LIBS = -latomic -lstdc++
 
 CFLAGS = -O3 -Wall -Wextra
 
