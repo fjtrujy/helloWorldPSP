@@ -8,72 +8,41 @@
 #include <dirent.h>
 #include <stdio.h>
  
+ 
+#include <iostream>
+#include <string>
+#include <atomic>
+
 // configure PSP stuff
 #define VERS    1
 #define REVS    0
  
-PSP_MODULE_INFO("RetroArch", 0, 1, 1);
+PSP_MODULE_INFO("Hello World", 0, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER|THREAD_ATTR_VFPU);
- 
- 
-// make printing easier on us
-// #define printf pspDebugScreenPrintf
 
-static int exitRequest  = 0;
+class test {
+    public:
+        test() {}
+        ~test() {}
+        void domsg(const std::string& msg);
+    private:
+        std::atomic<time_t> last_err_time_;
+};
 
-static int isRunning()
+inline void test::domsg(const std::string& msg)
 {
-	return !exitRequest;
-}
+    auto now = time(nullptr);
+    if (now - last_err_time_ < 60)
+    {
+        return;
+    }
+    last_err_time_ = now;
 
-static int exitCallback(int arg1, int arg2, void *common) 
-{ 
-	exitRequest = 1; 
-	return 0; 
-} 
-
-static int callbackThread(SceSize args, void *argp) 
-{ 
-	int callbackID; 
-
-	callbackID = sceKernelCreateCallback("Exit Callback", exitCallback, NULL); 
-	sceKernelRegisterExitCallback(callbackID); 
-
-	sceKernelSleepThreadCB(); 
-
-	return 0; 
-} 
-
-static int setupExitCallback() 
-{ 
-	int threadID = 0; 
-
-	threadID = sceKernelCreateThread("Callback Update Thread", callbackThread, 0x11, 0xFA0, THREAD_ATTR_USER, 0); 
-	 
-	if(threadID >= 0) 
-	{ 
-		sceKernelStartThread(threadID, 0, 0); 
-	} 
-
-	return threadID; 
+    std::cout << now << msg << std::endl;
 }
  
- 
-int main(int argc, char** argv)
+int main()
 {
-    // basic init
-    int counter = 1;
-    setupExitCallback();
-
-	while(isRunning() && (counter % 1000) != 0) {
-      printf("Working!!!\n");
-      sceIoWrite(2, "foo\n", 4);
-      sceIoWrite(1, "faa\n", 4);
-
-      counter++;
-   }
-
-   //  exit
-    sceKernelExitGame();
-    return 0;
+    test t;
+    t.domsg("awesome");
 }
