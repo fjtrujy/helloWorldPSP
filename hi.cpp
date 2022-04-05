@@ -38,8 +38,9 @@ inline void test::domsg(const std::string& msg)
         return;
     }
     last_err_time_ = now;
-
+    
     std::cout << now << msg << std::endl;
+    std::cout << "Esto funciona??\n";
 }
  
 int main()
