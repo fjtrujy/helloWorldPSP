@@ -32,7 +32,7 @@ class test {
 inline void test::domsg(const std::string& msg)
 {
     auto now = time(nullptr);
-    std::cout << "TIME NOW: " << now <<  ":)";
+    std::cout << "TIME NOW: " << now <<  ":) \n";
     if (now - last_err_time_ < 60)
     {
         return;
@@ -44,6 +44,7 @@ inline void test::domsg(const std::string& msg)
  
 int main()
 {
+    std::cout << "Hello waiter\n"
     test t;
     t.domsg("awesome");
 }
