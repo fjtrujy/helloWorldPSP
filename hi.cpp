@@ -33,8 +33,10 @@ inline void test::domsg(const std::string& msg)
 {
     auto now = time(nullptr);
     std::cout << "TIME NOW: " << now <<  ":) \n";
+    std::cout << "LAST ERROR TIME: " << last_err_time_ <<  " :) \n";
     if (now - last_err_time_ < 60)
     {
+        std::cout << "GOODBY :( \n";
         return;
     }
     last_err_time_ = now;
