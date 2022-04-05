@@ -44,7 +44,7 @@ inline void test::domsg(const std::string& msg)
  
 int main()
 {
-    std::cout << "Hello waiter\n"
+    std::cout << "Hello waiter\n";
     test t;
     t.domsg("awesome");
 }
