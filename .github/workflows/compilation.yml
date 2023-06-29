@@ -38,3 +38,22 @@ jobs:
         name: hello-${{ steps.slug.outputs.sha8 }}
         path: | 
           EBOOT.PBP
+
+  execute:
+    needs: [build]
+    runs-on: ubuntu-latest
+    container: ghcr.io/hrydgard/ppsspp:latest
+
+    steps:
+    - name: Get short SHA
+      id: slug
+      run: echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)"
+
+    - name: Download artifact
+      uses: actions/download-artifact@v1
+      with:
+        name: hello-${{ steps.slug.outputs.sha8 }}
+    
+    - name: Execute ELF
+      run: |
+        PPSSPPHeadless hello-${{ steps.slug.outputs.sha8 }}/EBOOT.PBP --log
