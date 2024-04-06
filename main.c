@@ -64,9 +64,7 @@ int main(int argc, char** argv)
     // basic init
     setupExitCallback();
     
-	while(isRunning()) {
-      printf("Working!!!\n");
-   }
+	printf("Hello World\n");
 
    //  exit
     sceKernelExitGame();

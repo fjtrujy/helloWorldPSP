@@ -14,13 +14,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        docker_tag: [pspdev/pspdev]
+    container: ghcr.io/pspdev/pspsdk:latest
 
-    container: ${{ matrix.docker_tag }}:latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Install dependencies
       run: |
@@ -33,19 +30,31 @@ jobs:
 
     - name: Get short SHA
       id: slug
-      run: echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)"
-    
-    - name: Sanitized Docker Tag
-      id: docker_tag
-      run: echo "::set-output name=sha8::$(echo ${{matrix.docker_tag}} | sed s:/:__:g)"
+      run: echo "sha8=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_OUTPUT
 
     - name: Upload artifacts
       if: ${{ success() }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
-        name: hello-${{ steps.slug.outputs.sha8 }}-${{ steps.docker_tag.outputs.sha8 }}
-        path: |
-          hello.elf 
-          EBOOT.PBP 
-          PARAM.SFO
-          dump.txt
+        name: hello-${{ steps.slug.outputs.sha8 }}
+        path: | 
+          EBOOT.PBP
+
+  execute:
+    needs: [build]
+    runs-on: ubuntu-latest
+    container: ghcr.io/hrydgard/ppsspp:latest
+
+    steps:
+    - name: Get short SHA
+      id: slug
+      run: echo "sha8=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_OUTPUT
+
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: hello-${{ steps.slug.outputs.sha8 }}
+    
+    - name: Execute ELF
+      run: |
+        PPSSPPHeadless helloWorldPSP/helloWorldPSP/EBOOT.PBP --log
