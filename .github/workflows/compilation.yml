@@ -21,7 +21,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        apk add build-base git bash
+        apk add make git bash
     
 
     - name: Compile project
