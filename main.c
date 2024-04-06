@@ -7,6 +7,7 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <stdio.h>
+#include <time.h>
  
 // configure PSP stuff
 #define VERS    1
@@ -64,7 +65,9 @@ int main(int argc, char** argv)
     // basic init
     setupExitCallback();
     
-	printf("Hello World\n");
+	printf("Starting\n");
+	printf("CLOCK_PER_SEC=%d\n", CLOCKS_PER_SEC);
+	printf("Ending\n");
 
    //  exit
     sceKernelExitGame();
