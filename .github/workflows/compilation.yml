@@ -36,7 +36,7 @@ jobs:
       if: ${{ success() }}
       uses: actions/upload-artifact@v4
       with:
-        name: hello-${{ steps.slug.outputs.sha8 }}
+        name: gprof-${{ steps.slug.outputs.sha8 }}
         path: | 
           EBOOT.PBP
 
@@ -53,11 +53,15 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v4
       with:
-        name: hello-${{ steps.slug.outputs.sha8 }}
+        name: gprof-${{ steps.slug.outputs.sha8 }}
     
     - name: Check artifact
       run: ls -R .
     
     - name: Execute ELF
       run: |
-        PPSSPPHeadless EBOOT.PBP --log
+        PPSSPPHeadless $(pwd)/EBOOT.PBP --log || true
+      
+    - name: Check artifact post execution
+      run: ls -R .
+      

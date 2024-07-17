@@ -9,13 +9,14 @@
 BUILD_PRX          = 0
 PSP_LARGE_MEMORY   = 1
 
-TARGET = hello
+TARGET = gprof
 OBJS = main.o
 
-CFLAGS = -Os
+CFLAGS = -Os -g -pg
+LDFLAGS = -pg
 
 EXTRA_TARGETS = EBOOT.PBP
-PSP_EBOOT_TITLE = Hello World
+PSP_EBOOT_TITLE = GProfExample
 
 PSPSDK=$(shell psp-config --pspsdk-path)
 include $(PSPSDK)/lib/build.mak

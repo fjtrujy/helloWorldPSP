@@ -1,19 +1,21 @@
+#include <dirent.h>
+#include <stdio.h>
+#include <time.h>
+#include <math.h>
+#include <stdbool.h>
+#include <sys/types.h>
+
 // include psp headers
 #include <pspkernel.h>
 #include <pspdebug.h>
 #include <pspdisplay.h>
 #include <pspkernel.h>
-
-#include <sys/types.h>
-#include <dirent.h>
-#include <stdio.h>
-#include <time.h>
  
 // configure PSP stuff
 #define VERS    1
 #define REVS    0
  
-PSP_MODULE_INFO("RetroArch", 0, 1, 1);
+PSP_MODULE_INFO("GProfExample", 0, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER|THREAD_ATTR_VFPU);
  
  
@@ -58,18 +60,55 @@ static int setupExitCallback()
 
 	return threadID; 
 }
- 
- 
-int main(int argc, char** argv)
-{
-    // basic init
-    setupExitCallback();
-    
-	printf("Starting\n");
-	printf("CLOCK_PER_SEC=%d\n", CLOCKS_PER_SEC);
-	printf("Ending\n");
 
-   //  exit
-    sceKernelExitGame();
-    return 0;
+// Function to check if a number is prime
+bool is_prime(int num) {
+    if (num <= 1) return false;
+    if (num <= 3) return true;
+    if (num % 2 == 0 || num % 3 == 0) return false;
+    for (int i = 5; i * i <= num; i += 6) {
+        if (num % i == 0 || num % (i + 2) == 0) return false;
+    }
+    return true;
+}
+
+// Function to compute the sum of square roots of the first N prime numbers
+double sum_of_square_roots(int N) {
+    int count = 0;
+    int num = 2;
+    double sum = 0.0;
+
+    while (count < N) {
+        if (is_prime(num)) {
+            sum += sqrt(num);
+            count++;
+        }
+        num++;
+    }
+    return sum;
+}
+
+int dummy_function()
+{
+   int i;
+   for (i = 0; i < 10000; i++)
+   {
+      printf(".");
+   }
+   printf("\n");
+   return 0;
+}
+
+int main()
+{
+	// basic init
+	setupExitCallback();
+
+   printf("Hello, world!\n");
+   dummy_function();  
+   int N = 10000; // Large number of primes to compute
+    printf("Sum of square roots of the first %d prime numbers is %lf\n", N, sum_of_square_roots(N));
+   printf("Goodbye, world!\n");
+
+   return 0;
 }
