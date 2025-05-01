@@ -23,19 +23,6 @@ jobs:
       run: |
         apk add make git bash cmake
 
-    # To be removed once the fjtrujy fork is part of PSPDEV
-    - name: Install fjtrujy SDL2 fork
-      run: |
-        git clone -b pspRefactorRender https://github.com/fjtrujy/SDL.git
-        cd SDL
-        mkdir build
-        cd build
-        cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_TOOLCHAIN_FILE=$PSPDEV/psp/share/pspdev.cmake  -DCMAKE_INSTALL_PREFIX=$PSPDEV/psp \
-          -DBUILD_SHARED_LIBS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=OFF -DSDL_TESTS=OFF ..
-        make -j $(getconf _NPROCESSORS_ONLN)
-        make -j $(getconf _NPROCESSORS_ONLN) install
-    
-
     - name: Compile project
       run: |
         mkdir build && cd build
@@ -53,3 +40,60 @@ jobs:
         name: hello-${{ steps.slug.outputs.sha8 }}
         path: | 
           build/EBOOT.PBP
+          build/texture
+          build/texture.prx
+          build/grass.png
+
+  execute:
+    needs: [build]
+    runs-on: ubuntu-latest
+    container: ghcr.io/hrydgard/ppsspp:latest
+
+    steps:
+    - name: Get short SHA
+      id: slug
+      run: echo "sha8=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_OUTPUT
+
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: hello-${{ steps.slug.outputs.sha8 }}
+    
+    - name: Execute ELF
+      run: |
+        PPSSPPHeadless --graphics=software --log --verbose $(pwd)/EBOOT.PBP
+
+    - name: Check artifact
+      run: ls -R .
+
+    - name: Upload artifacts
+      if: ${{ success() }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: hello-gmon-${{ steps.slug.outputs.sha8 }}
+        path: | 
+          gmon.out
+          texture
+
+  generate_report:
+    needs: [execute]
+    runs-on: ubuntu-latest
+    container: ghcr.io/pspdev/psptoolchain:latest
+
+    steps:
+    - name: Get short SHA
+      id: slug
+      run: echo "sha8=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_OUTPUT
+
+    - name: Download binaryartifact
+      uses: actions/download-artifact@v4
+      with:
+        name: hello-gmon-${{ steps.slug.outputs.sha8 }}
+  
+    - name: Check artifact
+      run: ls -R .
+  
+    - name: Generate report
+      run: |
+        psp-gprof -b texture gmon.out > report.txt
+        cat report.txt

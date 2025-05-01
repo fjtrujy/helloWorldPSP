@@ -136,6 +136,7 @@ void drawTexture(Texture * texture, float x, float y, float w, float h) {
 
 
 int main() {
+	int frame = 0;
     // Make exiting with the home button possible
     setup_callbacks();
 
@@ -146,12 +147,17 @@ int main() {
     initGu();
 
     running = 1;
+
     while(running){
         startFrame();
 
         drawTexture(texture, SCREEN_WIDTH / 2 - texture->width / 2, SCREEN_HEIGHT / 2 - texture->height / 2, texture->width, texture->height);
 
         endFrame();
+		frame++;
+
+		if(frame == 1000)
+			running = 0;
     }
     // Stop rendering
     endGu();
