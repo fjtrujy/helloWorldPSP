@@ -15,6 +15,8 @@ OBJS = main.o
 CFLAGS = -Os -g -pg
 LDFLAGS = -pg
 
+LIBS= -lpspgu -lpspge -lpspdisplay
+
 EXTRA_TARGETS = EBOOT.PBP
 PSP_EBOOT_TITLE = GProfExample
 

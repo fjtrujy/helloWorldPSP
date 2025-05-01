@@ -11,9 +11,6 @@ on:
     types: [run_build]
   workflow_dispatch: {}
 
-# Using several artifacts because there is an existing issue
-# https://github.com/actions/upload-artifact/issues/478
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -42,6 +39,7 @@ jobs:
         path: | 
           EBOOT.PBP
           gprof.elf
+          grass.png
 
   execute:
     needs: [build]
@@ -60,8 +58,11 @@ jobs:
     
     - name: Execute ELF
       run: |
-        PPSSPPHeadless $(pwd)/EBOOT.PBP --log
-      
+        PPSSPPHeadless --graphics=software --log --verbose $(pwd)/EBOOT.PBP
+
+    - name: Check artifact
+      run: ls -R .
+
     - name: Upload artifacts
       if: ${{ success() }}
       uses: actions/upload-artifact@v4
@@ -69,36 +70,27 @@ jobs:
         name: gprof-gmon-${{ steps.slug.outputs.sha8 }}
         path: | 
           gmon.out
-      
+          gprof.elf
+
   generate_report:
     needs: [execute]
     runs-on: ubuntu-latest
-    container: ghcr.io/pspdev/pspdev:latest
+    container: ghcr.io/pspdev/psptoolchain:latest
 
     steps:
     - name: Get short SHA
       id: slug
       run: echo "sha8=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_OUTPUT
 
-    - name: Download artifact binary
-      uses: actions/download-artifact@v4
-      with:
-        name: gprof-binary-${{ steps.slug.outputs.sha8 }}
-  
-    - name: Download artifact gmon
+    - name: Download binaryartifact
       uses: actions/download-artifact@v4
       with:
         name: gprof-gmon-${{ steps.slug.outputs.sha8 }}
-    
+  
+    - name: Check artifact
+      run: ls -R .
+  
     - name: Generate report
       run: |
         psp-gprof -b gprof.elf gmon.out > report.txt
         cat report.txt
-
-    - name: Upload artifacts
-      if: ${{ success() }}
-      uses: actions/upload-artifact@v4
-      with:
-        name: gprof-report-${{ steps.slug.outputs.sha8 }}
-        path: | 
-          report.txt
