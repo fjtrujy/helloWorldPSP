@@ -14,9 +14,6 @@ PSP_MAIN_THREAD_ATTR(PSP_THREAD_ATTR_USER);
  
 int main(int argc, char** argv)
 {
-    while(1) {
-        printf("Hello World!\n"); // print some text
-    }
-    
+    printf("Hello World!\n");
     return 0;
 }
